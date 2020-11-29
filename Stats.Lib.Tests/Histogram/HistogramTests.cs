@@ -27,16 +27,5 @@ namespace Stats.Lib.Histogram.Tests
             Assert.Fail();
         }
 
-        [TestMethod()]
-        public void GetBarHeightMappedByTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetBarHeightsTest()
-        {
-            Assert.Fail();
-        }
     }
 }

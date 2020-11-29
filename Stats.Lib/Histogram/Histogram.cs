@@ -6,15 +6,14 @@ using System.Text;
 namespace Stats.Lib.Histogram
 {
     /// <summary>
-    /// Implementation using <see cref="SortedList{TKey, TValue}"> internally.
-    /// Expect good performance for the <see cref="IHistogram.GetBarHeights"> operation.
-    /// Expect bad performance for looping the <see cref="IHistogram.GetBarHeightMappedBy(double)"> operation.
+    /// Implementation using <see cref="SortedDictionary{TKey, TValue}"> internally.
+    /// Expect good performance for the <see cref="IHistogram.Add(double, double)"> operation.
     /// Thread unsafe.
     /// </summary>
     public class Histogram : IHistogram
     {
         // value (x), height (y)
-        private SortedList<double, double> BarHeights;
+        private SortedDictionary<double, double> BarHeights;
         private Func<double, double> MapValueToBar;
 
         public Histogram(Func<double, double> barMap)
@@ -24,7 +23,7 @@ namespace Stats.Lib.Histogram
                 throw new ArgumentNullException(nameof(barMap));
             }
             SetMapping(barMap);
-            BarHeights = new SortedList<double, double>();
+            BarHeights = new SortedDictionary<double, double>();
         }
         public void SetMapping(Func<double, double> barMap)
         {
