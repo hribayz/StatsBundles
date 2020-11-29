@@ -6,12 +6,22 @@ using System.Text;
 
 namespace Stats.Lib.Calculations
 {
+    /// <summary>
+    /// Runs algorithm that produces a Histogram of input data.
+    /// </summary>
     public class HistogramCalculator : IBundleStatisticsCalculator<HistogramDataBundle>
     {
         private IHistogramFactory HistogramFactory;
-        public HistogramCalculator(IHistogramFactory histogramFactory)
+        private Func<double, double> BucketMap;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bucketMap">Tells histogram how to map data to discrete buckets.</param>
+        /// <param name="histogramFactory">Histogram implementation service.</param>
+        public HistogramCalculator(Func<double, double> bucketMap, IHistogramFactory histogramFactory)
         {
             HistogramFactory = histogramFactory;
+            BucketMap = bucketMap;
         }
         public HistogramDataBundle Run(IEnumerable<double> input)
         {
@@ -20,7 +30,7 @@ namespace Stats.Lib.Calculations
                 throw new ArgumentNullException(nameof(input));
             }
 
-            IHistogram histogram = HistogramFactory.CreateHistogram(MapInputToBin);
+            IHistogram histogram = HistogramFactory.CreateHistogram(BucketMap);
 
             foreach (double value in input)
             {
@@ -31,11 +41,6 @@ namespace Stats.Lib.Calculations
             {
                 Histogram = histogram
             };
-        }
-        private double MapInputToBin(double input)
-        {
-            int floor = (int)Math.Floor(input);
-            return floor - floor % 10;
         }
     }
 }

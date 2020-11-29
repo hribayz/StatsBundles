@@ -4,9 +4,12 @@ using System.Text;
 
 namespace Stats.Lib.Histogram
 {
+    /// <summary>
+    /// Histogram factory service.
+    /// </summary>
     public interface IHistogramFactory
     {
-        public IHistogram CreateHistogram(Func<double, double> barMap);
+        public IHistogram CreateHistogram(Func<double, double> bucketMap);
 
     }
 }

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Stats.Lib.Models
 {
+    /// <summary>
+    /// Data bundle for algorithms with output as defined by assignment.
+    /// </summary>
     public class SemEvolStatsBundle : AStatsBundle
     {
         public double StandardDeviation { get; set; }

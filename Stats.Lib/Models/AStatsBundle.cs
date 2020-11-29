@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Stats.Lib.Models
 {
+    /// <summary>
+    /// Data container for output values of algorithms implemented as <see cref="Calculations.IBundleStatisticsCalculator{T}"/>.
+    /// </summary>
     public abstract class AStatsBundle
     {
 
