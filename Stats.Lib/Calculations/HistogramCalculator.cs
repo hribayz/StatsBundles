@@ -8,6 +8,11 @@ namespace Stats.Lib.Calculations
 {
     public class HistogramCalculator : IBundleStatisticsCalculator<HistogramDataBundle>
     {
+        private IHistogramFactory HistogramFactory;
+        public HistogramCalculator(IHistogramFactory histogramFactory)
+        {
+            HistogramFactory = histogramFactory;
+        }
         public HistogramDataBundle Run(IEnumerable<double> input)
         {
             if (input is null)
@@ -19,7 +24,7 @@ namespace Stats.Lib.Calculations
 
             foreach (double value in input)
             {
-                histogram.Load(value, 1);
+                histogram.Add(value, 1);
             }
 
             return new HistogramDataBundle

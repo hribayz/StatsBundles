@@ -8,7 +8,7 @@ namespace Stats.App
     /// 
     /// Sometimes an algorithm that calculates a function of one-dimensional input yields useful statistics as by-products.
     /// When this by-product is a necessary step of the algorithm, having it for free does not violate the Single Responsibility principle.
-    /// An example of this is the Welfords Algorithm that calculates Variance in one pass and yields Mean as a by-product.
+    /// An example of this is the Welfords Algorithm which calculates Variance in one pass and yields Mean as a by-product.
     /// 
     /// This library provides an interface <see cref="Stats.Lib.Calculations.IBundleStatisticsCalculator{T}"/> 
     ///     for implementation of any algorithm that yields one or more numeric outputs on one-dimensional numeric input.

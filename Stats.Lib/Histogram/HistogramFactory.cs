@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Stats.Lib.Histogram
 {
-    public class HistogramFactory /*: IHistogramFactory*/
+    public class HistogramFactory : IHistogramFactory
     {
-        public static IHistogram CreateHistogram(Func<double, double> barMap)
+        public IHistogram CreateHistogram(Func<double, double> barMap)
         {
             if (barMap is null)
             {
@@ -15,7 +15,5 @@ namespace Stats.Lib.Histogram
 
             return new Histogram(barMap);
         }
-        public static ABarHeight CreateBarHeight() => BarHeight.Empty;
-        public static ABarHeight CreateBarHeight(double bar, double height) => new BarHeight(bar, height);
     }
 }

@@ -23,15 +23,14 @@ namespace Stats.Lib.Histogram
             {
                 throw new ArgumentNullException(nameof(barMap));
             }
-
-            BarHeights = new SortedList<double, double>();
             SetMapping(barMap);
+            BarHeights = new SortedList<double, double>();
         }
         public void SetMapping(Func<double, double> barMap)
         {
             MapValueToBar = barMap ?? throw new ArgumentNullException(nameof(barMap));
         }
-        public void Load(double x, double y)
+        public void Add(double x, double y)
         {
             var bar = MapValueToBar(x);
             if (!BarHeights.ContainsKey(bar))
@@ -40,17 +39,14 @@ namespace Stats.Lib.Histogram
             }
             BarHeights[bar] += y;
         }
-        public ABarHeight GetBarHeightMappedBy(double input)
+        public (double x, double y) GetBarHeightMappedBy(double input)
         {
             var bar = MapValueToBar(input);
-            return
-                BarHeights.ContainsKey(bar) ?
-                HistogramFactory.CreateBarHeight(bar, BarHeights[bar]) :
-                HistogramFactory.CreateBarHeight(bar, 0);
+            return BarHeights.ContainsKey(bar) ? (bar, BarHeights[bar]) : (bar, 0);
         }
-        public IEnumerable<ABarHeight> GetBarHeights()
+        public IEnumerable<(double x, double y)> GetBarHeights()
         {
-            return BarHeights.Select(x => HistogramFactory.CreateBarHeight(x.Key, x.Value));
+            return BarHeights.Select(x => (x.Key, x.Value));
         }
 
     }
