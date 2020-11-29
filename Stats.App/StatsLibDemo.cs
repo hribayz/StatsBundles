@@ -19,7 +19,7 @@ namespace Stats.App
             var sampleInput = sampleData.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
             // run calculator
-            var sampleDataBundle = new SemEvolStatsCalculator().GetStatsBundle(sampleInput.Select(x => double.Parse(x)));
+            var sampleDataBundle = new SemEvolStatsCalculator().Run(sampleInput.Select(x => double.Parse(x)));
 
             // format output
             PrettyPrint(sampleDataBundle);

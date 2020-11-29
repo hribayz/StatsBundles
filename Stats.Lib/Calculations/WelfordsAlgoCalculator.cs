@@ -12,17 +12,39 @@ namespace Stats.Lib.Calculations
         /// </summary>
         /// <param name="input">Input data sample.</param>
         /// <returns></returns>
-        public WelfordsAlgoDataBundle GetStatsBundle(IEnumerable<double> input)
+        public WelfordsAlgoDataBundle Run(IEnumerable<double> input)
         {
-            // This is to show how IBundleStatisticsCalculator Typed by a specific StatisticsBundle forces (and enables) the implementation to use 
-            // some efficient way to produce all results at once.
+            // Welfords algorithm explained:
+            // https://jonisalonen.com/2013/deriving-welfords-method-for-computing-variance/
+
+            // Stack Overflow discussion thread to this implementation
+            // https://stackoverflow.com/a/897463/3091898
 
             if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            throw new NotImplementedException();
+            double mean = 0d;
+            double varSquaresSum = 0d;
+            int step = 1;
+
+            foreach (double value in input)
+            {
+                // update variance, mean
+                double tmpM = mean;
+                mean += (value - tmpM) / step;
+                varSquaresSum += (value - tmpM) * (value - mean);
+                step++;
+            }
+
+            var variance = varSquaresSum / (step - 2);
+
+            return new WelfordsAlgoDataBundle
+            {
+                Mean = mean,
+                Variance = variance
+            };
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Stats.Lib.Calculations
     /// </summary>
     interface IBundleStatisticsCalculator<T> where T : AStatsBundle
     {
-        T GetStatsBundle(IEnumerable<double> input);
+        T Run(IEnumerable<double> input);
     }
 }

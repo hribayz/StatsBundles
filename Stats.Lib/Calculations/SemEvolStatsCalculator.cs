@@ -9,56 +9,23 @@ namespace Stats.Lib.Calculations
     public class SemEvolStatsCalculator : IBundleStatisticsCalculator<SemEvolStatsBundle>
     {
         /// <summary>
-        /// Calculates standard deviation and variance, calculates arithmetic mean and populates histogram buckets. All in one pass using modified Welfords Algorithm.
+        /// Calculates standard deviation and arithmetic mean and populates histogram buckets.
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="emptyContainer"></param>
         /// <returns></returns>
-        public SemEvolStatsBundle GetStatsBundle(IEnumerable<double> input)
+        public SemEvolStatsBundle Run(IEnumerable<double> input)
         {
-            // Welfords algorithm explained:
-            // https://jonisalonen.com/2013/deriving-welfords-method-for-computing-variance/
+            var welAlgoDataBundle = new WelfordsAlgoCalculator().Run(input);
+            var histDataBundle = new HistogramCalculator().Run(input);
 
-            // Stack Overflow discussion thread to this implementation
-            // https://stackoverflow.com/a/897463/3091898
-
-            if (input is null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
-            IHistogram histogram = HistogramFactory.CreateHistogram(MapInputToBin);
-
-            double mean = 0d;
-            double varSquaresSum = 0d;
-            int step = 1;
-
-            foreach (double value in input)
-            {
-                histogram.Load(value, 1);
-
-                // update variance, mean
-                double tmpM = mean;
-                mean += (value - tmpM) / step;
-                varSquaresSum += (value - tmpM) * (value - mean);
-                step++;
-            }
-
-            var variance = varSquaresSum / (step - 2);
-            var standardDeviation = Math.Sqrt(variance);
+            var standardDeviation = Math.Sqrt(welAlgoDataBundle.Variance);
 
             return new SemEvolStatsBundle
             {
-                Histogram = histogram,
-                Mean = mean,
+                Histogram = histDataBundle.Histogram,
+                Mean = welAlgoDataBundle.Mean,
                 StandardDeviation = standardDeviation,
-                Variance = variance
             };
-        }
-        private double MapInputToBin(double input)
-        {
-            int floor = (int)Math.Floor(input);
-            return floor - floor % 10;
         }
     }
 }
