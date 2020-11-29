@@ -13,15 +13,18 @@ namespace Stats.App
     {
         public void Demo()
         {
-            // load
+            // load input
             var sampleData = File.ReadAllText("SampleData.csv");
 
-            // parse
+            // parse input
             var rawInput = sampleData.Split(',', StringSplitOptions.RemoveEmptyEntries);
             var sampleInput = rawInput.Select(x => double.Parse(x));
 
-            // run calculator
-            var sampleDataBundle = new SemEvolStatsCalculator(new HistogramFactory()).Run(sampleInput);
+            // TODO : use the Core built-in dependency injection service for this
+            var histogramFactory = new HistogramFactory();
+
+            // run demo calculator
+            var sampleDataBundle = new SemEvolStatsCalculator(histogramFactory).Run(sampleInput);
 
             // format output
             PrettyPrint(sampleDataBundle);
