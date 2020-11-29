@@ -24,7 +24,7 @@ namespace Stats.Lib.Calculations
 
             foreach (double value in input)
             {
-                histogram.Add(value, 1);
+                histogram.AddInput(value, 1);
             }
 
             return new HistogramDataBundle

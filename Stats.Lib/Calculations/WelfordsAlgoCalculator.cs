@@ -26,7 +26,7 @@ namespace Stats.Lib.Calculations
             }
 
             double mean = 0d;
-            double varSquaresSum = 0d;
+            double squaresSum = 0d;
             int step = 1;
 
             foreach (double value in input)
@@ -34,11 +34,18 @@ namespace Stats.Lib.Calculations
                 // update variance, mean
                 double tmpM = mean;
                 mean += (value - tmpM) / step;
-                varSquaresSum += (value - tmpM) * (value - mean);
+                squaresSum += (value - tmpM) * (value - mean);
+
+                // also triggers if mean is infinity. No need to check both.
+                if (double.IsInfinity(squaresSum))
+                {
+                    throw new OverflowException("The variance in the data was more than double.MaxValue");
+                }
+
                 step++;
             }
 
-            var variance = varSquaresSum / (step - 2);
+            var variance = squaresSum / (step - 2);
 
             return new WelfordsAlgoDataBundle
             {

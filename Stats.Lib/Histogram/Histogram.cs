@@ -7,7 +7,7 @@ namespace Stats.Lib.Histogram
 {
     /// <summary>
     /// Implementation using <see cref="SortedDictionary{TKey, TValue}"> internally.
-    /// Expect good performance for the <see cref="IHistogram.Add(double, double)"> operation.
+    /// Expect good performance for the <see cref="IHistogram.AddInput(double, double)"> operation.
     /// Thread unsafe.
     /// </summary>
     public class Histogram : IHistogram
@@ -29,7 +29,7 @@ namespace Stats.Lib.Histogram
         {
             MapValueToBar = barMap ?? throw new ArgumentNullException(nameof(barMap));
         }
-        public void Add(double x, double y)
+        public void AddInput(double x, double y)
         {
             var bar = MapValueToBar(x);
             if (!BarHeights.ContainsKey(bar))
