@@ -20,11 +20,8 @@ namespace Stats.App
             var rawInput = sampleData.Split(',', StringSplitOptions.RemoveEmptyEntries);
             var sampleInput = rawInput.Select(x => double.Parse(x));
 
-            // TODO : use the Core built-in dependency injection service for this
-            var histogramFactory = new HistogramFactory();
-
             // run demo calculator
-            var sampleDataBundle = new SemEvolStatsCalculator(histogramFactory).Run(sampleInput);
+            var sampleDataBundle = new SemEvolStatsCalculator().Run(sampleInput);
 
             // format output
             PrettyPrint(sampleDataBundle);

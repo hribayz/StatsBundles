@@ -8,7 +8,7 @@ namespace Stats.Lib.Models
     /// <summary>
     /// Data container for algorithms with Histogram output.
     /// </summary>
-    public class HistogramDataBundle : AStatsBundle
+    public class HistogramStatsBundle : AStatsBundle
     {
         public IHistogram Histogram { get; set; }
     }

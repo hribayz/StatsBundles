@@ -9,18 +9,12 @@ namespace Stats.Lib.Calculations
     /// <summary>
     /// Composes a data bundle as requested by assignment.
     /// </summary>
-    public class SemEvolStatsCalculator : IBundleStatisticsCalculator<SemEvolStatsBundle>
+    public class SemEvolStatsCalculator : IStatsBundleCalculator<SemEvolStatsBundle>
     {
-        private IHistogramFactory HistogramFactory;
-        public SemEvolStatsCalculator(IHistogramFactory histogramFactory)
-        {
-            HistogramFactory = histogramFactory ?? throw new ArgumentNullException(nameof(histogramFactory));
-        }
         /// <summary>
-        /// Calculates standard deviation and arithmetic mean and populates histogram buckets.
+        /// Run the calculator on the input
         /// </summary>
-        /// <param name="input">Input data sample.</param>
-        /// <returns></returns>
+        /// <param name="input">input data</param>
         public SemEvolStatsBundle Run(IEnumerable<double> input)
         {
             if (input is null)
@@ -28,12 +22,12 @@ namespace Stats.Lib.Calculations
                 throw new ArgumentNullException(nameof(input));
             }
 
-            // better to keep the following two calculations decoupled
-            // as bundling them together into one algorithm would have no performance benefits
-            // 
+            var welAlgoDataBundle = CalculatorFactory.CreateWelfordAlgoCalculator().Run(input);
 
-            var welAlgoDataBundle = new WelfordsAlgoCalculator().Run(input);
-            var histDataBundle = new HistogramCalculator(SemEvolBinMap, HistogramFactory).Run(input);
+            var histCalculator = CalculatorFactory.CreateHistogramCalculatorWithConfigurableBuckets();
+            histCalculator.SetHistogramMap(SemEvolBinMap);
+
+            var histDataBundle = histCalculator.Run(input);
 
             var standardDeviation = Math.Sqrt(welAlgoDataBundle.Variance);
 

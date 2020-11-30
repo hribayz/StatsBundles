@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Stats.Lib.Calculations
 {
-    public class WelfordsAlgoCalculator : IBundleStatisticsCalculator<WelfordsAlgoDataBundle>
+    public class WelfordsAlgoCalculator : IStatsBundleCalculator<WelfordsAlgoStatsBundle>
     {
         /// <summary>
         /// Classic Welfords algorithm to produce Variance and Mean in one pass.
         /// </summary>
         /// <param name="input">Input data sample.</param>
         /// <returns></returns>
-        public WelfordsAlgoDataBundle Run(IEnumerable<double> input)
+        public WelfordsAlgoStatsBundle Run(IEnumerable<double> input)
         {
             // Welfords algorithm explained:
             // https://jonisalonen.com/2013/deriving-welfords-method-for-computing-variance/
@@ -26,7 +26,7 @@ namespace Stats.Lib.Calculations
             }
 
             double mean = 0d;
-            double squaresSum = 0d;
+            double sumOfSquares = 0d;
             int step = 1;
 
             foreach (double value in input)
@@ -34,10 +34,10 @@ namespace Stats.Lib.Calculations
                 // update variance, mean
                 double tmpM = mean;
                 mean += (value - tmpM) / step;
-                squaresSum += (value - tmpM) * (value - mean);
+                sumOfSquares += (value - tmpM) * (value - mean);
 
                 // also triggers if mean is infinity. No need to check both.
-                if (double.IsInfinity(squaresSum))
+                if (double.IsInfinity(sumOfSquares))
                 {
                     throw new OverflowException("The variance in the data was more than double.MaxValue");
                 }
@@ -45,9 +45,9 @@ namespace Stats.Lib.Calculations
                 step++;
             }
 
-            var variance = squaresSum / (step - 2);
+            var variance = sumOfSquares / (step - 2);
 
-            return new WelfordsAlgoDataBundle
+            return new WelfordsAlgoStatsBundle
             {
                 Mean = mean,
                 Variance = variance

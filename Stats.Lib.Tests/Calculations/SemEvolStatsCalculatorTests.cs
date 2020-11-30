@@ -15,7 +15,7 @@ namespace Stats.Lib.Calculations.Tests
         [DataRow(new[] { 0d, 1d, 2d, 3d, 4d, 5d }, 2.5, 1.870829)]
         public void RunTest(double[] input, double mean, double sd)
         {
-            var dataBundle = new SemEvolStatsCalculator(new HistogramFactory()).Run(input);
+            var dataBundle = CalculatorFactory.CreateSemEvolStatsCalculator().Run(input);
             Assert.IsTrue(dataBundle.Mean >= mean * 0.999);
             Assert.IsTrue(dataBundle.Mean <= mean * 1.001);
             Assert.IsTrue(dataBundle.StandardDeviation >= sd * 0.999);
@@ -26,7 +26,7 @@ namespace Stats.Lib.Calculations.Tests
         {
             Assert.ThrowsException<OverflowException>(() =>
             {
-                new SemEvolStatsCalculator(new HistogramFactory()).Run(new[] { double.MaxValue, double.MinValue });
+                new SemEvolStatsCalculator().Run(new[] { double.MaxValue, double.MinValue });
             });
         }
     }

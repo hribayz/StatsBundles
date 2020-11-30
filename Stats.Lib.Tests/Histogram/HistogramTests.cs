@@ -16,7 +16,9 @@ namespace Stats.Lib.Histogram.Tests
         [DataRow(new[] { 0d, 1.1, 2.2, 3.3, 4.4, 5.5, 5.5 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 0d, 1.1, 2.2, 3.3, 4.4, 11 })]
         public void TestIntegerHistogram(double[] inputs, int[] keys, double[] heights)
         {
-            var histogram = new Histogram(d => (int)d);
+
+            var histogram = HistogramFactory.CreateHistogram();
+            histogram.SetMapping(d => (int)d);
 
             foreach (var input in inputs)
             {

@@ -4,16 +4,11 @@ using System.Text;
 
 namespace Stats.Lib.Histogram
 {
-    public class HistogramFactory : IHistogramFactory
+    public static class HistogramFactory
     {
-        public IHistogram CreateHistogram(Func<double, double> barMap)
+        public static IHistogram CreateHistogram()
         {
-            if (barMap is null)
-            {
-                throw new ArgumentNullException(nameof(barMap));
-            }
-
-            return new Histogram(barMap);
+            return new Histogram();
         }
     }
 }
