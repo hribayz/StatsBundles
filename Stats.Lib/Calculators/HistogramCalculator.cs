@@ -7,7 +7,8 @@ using System.Text;
 namespace Stats.Lib.Calculations
 {
     /// <summary>
-    /// Runs algorithm that produces a Histogram of input data.
+    /// Calculates a histogram of input data.
+    /// Provides an option to set the bucket mapping to new function. This will corrupt results if done in between multiple runs.
     /// </summary>
     public class HistogramCalculator : IHistogramCalculator
     {

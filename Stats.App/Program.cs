@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Stats.Lib.Calculations;
+﻿using Stats.Lib.Calculations;
 using Stats.Lib.Models;
 
 namespace Stats.App
@@ -21,12 +19,6 @@ namespace Stats.App
         static void Main(string[] args)
         {
             new StatsLibDemo().Demo();
-        }
-        static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices((_, services) =>
-                services.AddTransient<IStatsBundleCalculator<HistogramStatsBundle>, HistogramCalculator>());
         }
     }
 }
